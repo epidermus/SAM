@@ -19,7 +19,8 @@ stephansdom = result.elements()[0]
 
 print(stephansdom.tag('name:en'))
 
-result = overpass.query('node["amenity"="pub"](53.2987342,-6.3870259,53.4105416,-6.1148829); out;')
+# below line pulls all roads in an area
+result = overpass.query('way[foot](53.2987342,-6.3870259,53.4105416,-6.1148829); out;')
 
 pubs = result.elements()[0]
-print(pubs)
+print(result)
