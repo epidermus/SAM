@@ -19,7 +19,9 @@ stephansdom = result.elements()[0]
 
 print(stephansdom.tag('name:en'))
 
-result = overpass.query('node["amenity"="pub"](53.2987342,-6.3870259,53.4105416,-6.1148829); out;')
+result = overpass.query('''way[foot](53.2987342,-6.3870259,53.4105416,-6.1148829);
+make stat number=count(ways),length=sum(length());
+ out;''')
 
 pubs = result.elements()[0]
-print(pubs)
+print(result)
