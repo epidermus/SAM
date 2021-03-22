@@ -19,8 +19,14 @@ stephansdom = result.elements()[0]
 
 print(stephansdom.tag('name:en'))
 
+<<<<<<< HEAD
 # below line pulls all roads in an area
 result = overpass.query('way[foot](53.2987342,-6.3870259,53.4105416,-6.1148829); out;')
+=======
+result = overpass.query('''way[foot](53.2987342,-6.3870259,53.4105416,-6.1148829);
+make stat number=count(ways),length=sum(length());
+ out;''')
+>>>>>>> 6d9e6be98df0baf83435508563317042414622bf
 
 pubs = result.elements()[0]
 print(result)
