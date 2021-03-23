@@ -23,7 +23,7 @@ print(stephansdom.tag('name:en'))
 result = overpass.query('area[name="Salt Lake City"];way(area)[foot]; out;')
 count = 0
 for element in result.elements():
-    print(element)
+    print(element.tag('name'))
     count += 1
     print(count)
 
