@@ -20,6 +20,7 @@ stephansdom = result.elements()[0]
 print(stephansdom.tag('name:en'))
 
 # below line pulls all roads in an area
+# test comment
 result = overpass.query('area[name="Salt Lake City"];way(area)[foot]; out;')
 count = 0
 for element in result.elements():
