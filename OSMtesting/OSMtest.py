@@ -21,10 +21,12 @@ print(stephansdom.tag('name:en'))
 
 # below line pulls all roads in an area
 # test comment
-result = overpass.query('area[name="Salt Lake City"];way(area)[foot]; out;')
+result = overpass.query('area[name="Salt Lake County"];(way(area)[foot];>;); out geom;')
 count = 0
 for element in result.elements():
-    print(element.tag('name'))
+    # print(element.tag('name'))
+    for pizza in element.geometry():
+        print(pizza.coordinates())
     count += 1
     print(count)
 
