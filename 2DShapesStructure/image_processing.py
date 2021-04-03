@@ -1,4 +1,6 @@
 import json
+import os
+import random
 import math
 import matplotlib.pyplot as plt
 from scipy.spatial.distance import directed_hausdorff
@@ -17,6 +19,19 @@ def load_shape(shape_file_name):
 		for dict in dict_points:
 			points.append((dict['x'], dict['y']))
 		return points
+
+
+def load_random_shape():
+	"""
+	loads a random image from the 2DShapesStructure data set
+	:return: a list of tuples containing the x and y-coordinates of the shapes
+	"""
+	path = './Shapes_JSON/'
+	random_filename = random.choice([
+		x for x in os.listdir(path)
+		if os.path.isfile(os.path.join(path, x))
+	])
+	return load_shape(random_filename)
 
 
 def rotate_image(points, angle):
@@ -52,17 +67,17 @@ def scale_image(points, scale_factor):
 		return points
 	scaled_points = []
 	for point in points:
-		scaled_x = scale_factor*point[0]
-		scaled_y = scale_factor*point[1]
-	# trying keep centroid of image in same position
-	#	if scale_factor < 1:
-	#		# image shrinks in this case
-	#		scaled_x += (point[0] - scaled_x) / 2
-	#		scaled_y += (point[1] - scaled_y) / 2
-	#	else:
-			# image grows in this case
-	#		scaled_x -= (scaled_x - point[0]) / 2
-	#		scaled_y -= (scaled_y - point[1]) / 2
+		scaled_x = scale_factor * point[0]
+		scaled_y = scale_factor * point[1]
+		# trying keep centroid of image in same position
+		#	if scale_factor < 1:
+		#		# image shrinks in this case
+		#		scaled_x += (point[0] - scaled_x) / 2
+		#		scaled_y += (point[1] - scaled_y) / 2
+		#	else:
+		# image grows in this case
+		#		scaled_x -= (scaled_x - point[0]) / 2
+		#		scaled_y -= (scaled_y - point[1]) / 2
 		scaled_points.append((scaled_x, scaled_y))
 	return scaled_points
 
@@ -95,7 +110,6 @@ def draw_image(points, title=''):
 	plt.plot(x_coords, y_coords)
 	plt.show()
 
-
 # testing points with directed_hausdorff from scipy
 frog = load_shape('frog-1.json')
 fork = load_shape('fork-1.json')
@@ -111,11 +125,12 @@ print('Symmetric Hausdorff between frog and fork image: {}\n'.format(symmetric_h
 # testing centroid
 print('Centroid of frog image: ' + str(calculate_centroid(frog)) + '\n')
 
+
+image = load_random_shape()
+
 # testing rotation and scaling functions
-draw_image(frog, 'Frog image before rotation')
-frog = rotate_image(frog, 90)
-draw_image(frog, 'Frog image rotated 90 degrees counterclockwise \n using image_processing.rotate_image function')
-frog = scale_image(frog, 2)
-draw_image(frog, 'Frog image rotated and scaled up by a factor of 2')
-
-
+draw_image(image, 'Random image before rotation')
+image = rotate_image(image, 90)
+draw_image(image, 'Random image rotated 90 degrees counterclockwise \n using image_processing.rotate_image function')
+image = scale_image(image, 2)
+draw_image(image, 'Random image rotated and scaled up by a factor of 2')
