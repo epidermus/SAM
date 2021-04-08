@@ -1,31 +1,32 @@
 from OSMPythonTools.api import Api
 from OSMPythonTools.overpass import Overpass
+# from OSMPythonTools.overpass import overpassQueryBuilder
+# from OSMPythonTools.nominatim import Nominatim
+# nominatim = Nominatim()
 
 api = Api()
 overpass = Overpass()
-way = api.query('way/5887599')
-result = overpass.query('way["name"="Stephansdom"]; out body;')
-
-print(way.tag('building'))
-# 'castle'
-print(way.tag('architect'))
-# 'Johann Lucas von Hildebrandt'
-print(way.tag('website'))
-# 'http://www.belvedere.at'
-
-print("Overpass Test")
-
-stephansdom = result.elements()[0]
-
-print(stephansdom.tag('name:en'))
 
 # below line pulls all roads in an area
 # test comment
-result = overpass.query('area[name="Salt Lake City"];way(area)[foot]; out;')
+
+# query = overpassQueryBuilder(area=nominatim.query('Salt Lake County'), elementType='way', selector = 'foot', out='body', includeGeometry=True)
+# overpass.query(query,timeout=50)
+
+result = overpass.query('''area[name="Salt Lake County"];
+way(area)[foot];
+out body geom;
+
+''', timeout=50)
+
+
+
 count = 0
 for element in result.elements():
-    print(element.tag('name'))
-    count += 1
-    print(count)
+    if(element.lon() and element.lat()):
+        print(element.lon())
+        print(element.lat())
+        count += 1
+        print(count)
 
 print(result)
