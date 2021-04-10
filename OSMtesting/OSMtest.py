@@ -1,6 +1,7 @@
 from OSMPythonTools.api import Api
 from OSMPythonTools.overpass import Overpass
 import geojson
+import webbrowser
 # from OSMPythonTools.overpass import overpassQueryBuilder
 # from OSMPythonTools.nominatim import Nominatim
 # nominatim = Nominatim()
@@ -27,6 +28,7 @@ counter = 0
 for element in result.elements():
     linestring = element.geometry()
     for x in linestring["coordinates"]:
+<<<<<<< HEAD
         counter += 1
         if(counter == 130):
             counter =0
@@ -38,6 +40,9 @@ for element in result.elements():
         #     print(geometry.lat())
         #     count += 1
         #     print(count)
+=======
+        list.append(x)
+>>>>>>> 5f751a6ef5f6b404c256389c83156a522a4c7330
 
 url = ""
 count = 0
@@ -46,3 +51,4 @@ for item in list:
     count += 1
 print(url)
 print(count)
+webbrowser.open("https://www.google.com/maps/dir/" + url)
