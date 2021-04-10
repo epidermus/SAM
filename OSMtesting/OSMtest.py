@@ -15,19 +15,22 @@ overpass = Overpass()
 # overpass.query(query,timeout=50)
 
 result = overpass.query('''area[name="Salt Lake County"];
-way(area)[foot];
+way(area)[highway=motorway];
 out body geom;
 
-''', timeout=50)
+''', timeout=500)
 
 
 list = []
 count = 0
+counter = 0
 for element in result.elements():
     linestring = element.geometry()
-    list = []
     for x in linestring["coordinates"]:
-        list.append(x)
+        counter += 1
+        if(counter == 30):
+            counter =0
+            list.append(x)
     #for geometry in element.geometry():
     #    print(type(geometry["coordinates"]))
         # if(geometry.lon() and geometry.lat()):
