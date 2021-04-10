@@ -1,5 +1,6 @@
 from OSMPythonTools.api import Api
 from OSMPythonTools.overpass import Overpass
+import json
 # from OSMPythonTools.overpass import overpassQueryBuilder
 # from OSMPythonTools.nominatim import Nominatim
 # nominatim = Nominatim()
@@ -23,10 +24,13 @@ out body geom;
 
 count = 0
 for element in result.elements():
-    if(element.lon() and element.lat()):
-        print(element.lon())
-        print(element.lat())
-        count += 1
-        print(count)
+    print(element.geometry())
+    for geometry in element.geometry():
+        print(geometry)
+        # if(geometry.lon() and geometry.lat()):
+        #     print(geometry.lon())
+        #     print(geometry.lat())
+        #     count += 1
+        #     print(count)
 
 print(result)
