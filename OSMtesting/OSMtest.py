@@ -28,7 +28,7 @@ for element in result.elements():
     linestring = element.geometry()
     for x in linestring["coordinates"]:
         counter += 1
-        if(counter == 30):
+        if(counter == 130):
             counter =0
             list.append(x)
     #for geometry in element.geometry():
