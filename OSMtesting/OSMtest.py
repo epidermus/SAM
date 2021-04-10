@@ -1,5 +1,6 @@
 from OSMPythonTools.api import Api
 from OSMPythonTools.overpass import Overpass
+import geojson
 # from OSMPythonTools.overpass import overpassQueryBuilder
 # from OSMPythonTools.nominatim import Nominatim
 # nominatim = Nominatim()
@@ -20,13 +21,25 @@ out body geom;
 ''', timeout=50)
 
 
-
+list = []
 count = 0
 for element in result.elements():
-    if(element.lon() and element.lat()):
-        print(element.lon())
-        print(element.lat())
-        count += 1
-        print(count)
+    linestring = element.geometry()
+    list = []
+    for x in linestring["coordinates"]:
+        list.append(x)
+    #for geometry in element.geometry():
+    #    print(type(geometry["coordinates"]))
+        # if(geometry.lon() and geometry.lat()):
+        #     print(geometry.lon())
+        #     print(geometry.lat())
+        #     count += 1
+        #     print(count)
 
-print(result)
+url = ""
+count = 0
+for item in list:
+    url += str(item[1])[0:7] + "," + str(item[0])[0:7] + "/"
+    count += 1
+print(url)
+print(count)
