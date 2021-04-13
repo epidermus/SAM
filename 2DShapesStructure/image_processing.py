@@ -16,8 +16,15 @@ def load_shape(shape_file_name):
 		data = json.load(file)
 		dict_points = data['points']
 		points = []
+		pointcount = 0
+		count = 0
 		for dict in dict_points:
-			points.append((dict['x'], dict['y']))
+			pointcount +=1
+			if(pointcount == 4):
+				points.append((dict['x'], dict['y']))
+				pointcount =0
+				count+=1
+		print(count)
 		return points
 
 
@@ -31,6 +38,7 @@ def load_random_shape():
 		x for x in os.listdir(path)
 		if os.path.isfile(os.path.join(path, x))
 	])
+	print(random_filename)
 	return load_shape(random_filename)
 
 
