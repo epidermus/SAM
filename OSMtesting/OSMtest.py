@@ -29,7 +29,7 @@ for element in result.elements():
     linestring = element.geometry()
     for x in linestring["coordinates"]:
         counter += 1
-        if(counter == 130):
+        if(counter == 150):
             counter =0
             list.append(x)
     #for geometry in element.geometry():
@@ -40,7 +40,7 @@ for element in result.elements():
         #     count += 1
         #     print(count)
 
-url = "https://www.google.com/maps/dir/"
+url = ""
 count = 0
 for item in list:
     url += str(item[1])[0:7] + "," + str(item[0])[0:7] + "/"
