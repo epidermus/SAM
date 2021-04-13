@@ -40,7 +40,7 @@ for element in result.elements():
         #     count += 1
         #     print(count)
 
-url = ""
+url = "https://www.google.com/maps/dir/"
 count = 0
 for item in list:
     url += str(item[1])[0:7] + "," + str(item[0])[0:7] + "/"
