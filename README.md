@@ -9,6 +9,7 @@
 
 # 2DShapesStrucuture Image Dataset
 https://github.com/2dshapesstructure/dataset-processing
+http://2dshapesstructure.github.io/
 
 # Dependencies
 <ul>
