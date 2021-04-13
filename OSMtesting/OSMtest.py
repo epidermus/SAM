@@ -28,7 +28,6 @@ counter = 0
 for element in result.elements():
     linestring = element.geometry()
     for x in linestring["coordinates"]:
-<<<<<<< HEAD
         counter += 1
         if(counter == 130):
             counter =0
@@ -40,9 +39,6 @@ for element in result.elements():
         #     print(geometry.lat())
         #     count += 1
         #     print(count)
-=======
-        list.append(x)
->>>>>>> 5f751a6ef5f6b404c256389c83156a522a4c7330
 
 url = ""
 count = 0
