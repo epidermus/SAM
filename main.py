@@ -1,4 +1,4 @@
-from OSMtesting import OSMtest
+from OSM import OSM
 from ShapesStructure import image_processing as ip
 from definitions import *
 import os
