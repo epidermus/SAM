@@ -7,7 +7,7 @@
 
 <br/>
 
-# 2DShapesStrucuture Image Dataset
+# 2DShapesStructure Image Dataset
 https://github.com/2dshapesstructure/dataset-processing <br/>
 http://2dshapesstructure.github.io/
 
