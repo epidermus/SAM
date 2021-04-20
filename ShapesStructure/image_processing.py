@@ -3,7 +3,6 @@ import os
 import random
 import math
 import matplotlib.pyplot as plt
-from scipy.spatial.distance import directed_hausdorff
 from definitions import ROOT_DIR
 
 
@@ -45,7 +44,8 @@ def load_random_shape():
 
 def rotate_image(points, angle):
 	"""
-	rotates an image (list of points) counterclockwise a specified number of degrees
+	rotates an image (list of points) counterclockwise a specified number of degrees (assuming (x,y) coordinate plane)
+	NOTE: will rotate images clockwise if points are in (y,x) format, such as with geographic coordinates (lat, long)
 	:param points: list of points representing an image
 	:param angle: the amount of rotation to apply to the image in degrees
 	:return: the rotated image as a new list of points
@@ -80,6 +80,20 @@ def scale_image(points, scale_factor):
 		scaled_y = scale_factor * point[1]
 		scaled_points.append((scaled_x, scaled_y))
 	return scaled_points
+
+
+def translate_image(points, lat_direction, long_direction):
+	"""
+	moves an image to a different location
+	:param points: list of points representing an image
+	:param lat_direction: how many units the image will be translated in the north/south direction
+	:param long_direction: how many units the image will be translated in the east/west direction
+	:return: the list of newly translated points
+	"""
+	translated_points = []
+	for point in points:
+		translated_points.append((point[0] + lat_direction, point[1] + long_direction))
+	return translated_points
 
 
 def calculate_centroid(points):
