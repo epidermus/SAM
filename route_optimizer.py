@@ -1,9 +1,5 @@
 from scipy.spatial.distance import directed_hausdorff
-from OSMPythonTools.api import Api
-from OSMPythonTools.overpass import Overpass
 from ShapesStructure import image_processing as ip
-from OSMPythonTools.overpass import overpassQueryBuilder
-import webbrowser
 import numpy as np
 
 
@@ -16,7 +12,7 @@ def optimize_route(image, city_coords):
 	:param city_coords: the geographic coordinates of the streets of the city we are fitting an image to
 	:return:
 	"""
-	pass
+	return ip.translate_image(image, 0.05, 0.05)
 
 
 # A = np.array([(1.0, 0.0),

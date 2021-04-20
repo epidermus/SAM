@@ -1,7 +1,9 @@
+import webbrowser
 from OSM import OSM
 from ShapesStructure import image_processing as ip
 from definitions import *
-import webbrowser
+import route_optimizer as ro
+
 
 
 def main():
@@ -18,8 +20,8 @@ def main():
 			print('Sorry, there is no image with the name \'' + image_name + '\' in the dataset. Please enter a valid name.')
 		else:
 			image = ip.load_shape(image_name + '.json')
-			# ranges for Salt Lake roughly... lat: 40.5928 - 40.7187 / long: -112.06 - -111.97
-			geo_image = ip.points_to_lat_long(image, 40.5928, 40.7, -112, -111.9)
+			# ranges for middle chunk of Salt Lake roughly... lat: 40.5928 - 40.68 / long: -112 - -111.9
+			geo_image = ip.points_to_lat_long(image, 40.5928, 40.68, -112, -111.9)
 
 	# TODO: still need to optimize which points are cut from each image
 	i = 1
@@ -31,6 +33,13 @@ def main():
 			i = 0
 		i += 1
 	geo_image.append(geo_image[0])
+
+	SLC = OSM.obtain_map("Salt Lake City")
+	Portland = OSM.obtain_map("Portland")
+	SLC_square = OSM.obtain_square_portion(40.5928, 40.7, -112, -111.9)
+
+	geo_image = ro.optimize_route(geo_image, SLC_square)
+
 	# construct coords to be placed into URL
 	# TODO: implement route optimization techniques through rotation, scaling, and comparing to road coords from OSM using Hausdorff
 	url_end = ''
@@ -40,9 +49,6 @@ def main():
 	print('\nOpening SAM\'s sketch in Google Maps...')
 	# showing route that will look like an apple in Google maps...
 	webbrowser.open('https://www.google.com/maps/dir/' + url_end)
-	OSM.obtain_map("Salt Lake City")
-	OSM.obtain_map("Portland")
-	OSM.obtain_square_portion(40.5928, 40.7, -112, -111.9)
 
 
 if __name__ == "__main__":
