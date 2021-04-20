@@ -29,6 +29,8 @@ def main():
 		# remove every third point until total points in image is <= 25
 		if i % 7 == 0:
 			geo_image.pop(i)
+		if i > len(geo_image):
+			i = 0
 		i += 1
 	geo_image.append(geo_image[0])
 	# construct coords to be placed into URL
