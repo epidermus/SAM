@@ -18,13 +18,9 @@ def obtainMap(city):
 
 def obtainSquarePortion(corner1, corner3, corner2, corner4):
 	overpass = Overpass()
-	query = overpassQueryBuilder(bbox=[corner1, corner2, corner3, corner4], elementType='node', selector='"highway"="motorway',
+	query = overpassQueryBuilder(bbox=[corner1, corner2, corner3, corner4], elementType='way', selector='"highway"="motorway"',
 								 out="body geom")
 	result = overpass.query(query)
-	bound = str(corner1) + ', ' + str(corner2) + ', ' + str(corner3) + ', ' + str(corner4)
-	result = overpass.query(('''[highway=motorway]({});
-	out body geom;
-	''').format(bound), timeout=500)
 	return result
 
 def optimize_route(image, city_coords):
