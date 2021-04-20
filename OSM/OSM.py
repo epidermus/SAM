@@ -14,9 +14,14 @@ def obtain_map(city):
 def obtain_square_portion(corner1, corner3, corner2, corner4):
 	overpass = Overpass()
 	query = overpassQueryBuilder(bbox=[corner1, corner2, corner3, corner4], elementType='way',
-								 selector='"highway"="motorway"', out="body geom")
+								 selector='"highway"', out="body geom")
 	result = overpass.query(query)
-	return result
+	road_coords = []
+	for element in result.elements():
+		linestring = element.geometry()
+		for x in linestring["coordinates"]:
+			road_coords.append(x)
+	return road_coords
 
 
 
