@@ -1,7 +1,8 @@
 from OSM import OSM
 from ShapesStructure import image_processing as ip
 from definitions import *
-import os
+from route_optimizer import obtainMap
+from route_optimizer import obtainSquarePortion
 import webbrowser
 
 
@@ -24,12 +25,12 @@ def main():
 
 	# TODO: still need to optimize which points are cut from each image
 	i = 1
-	while len(geo_image) > 25:
+	while len(geo_image) > 24:
 		# remove every third point until total points in image is <= 25
-		if i % 3 == 0:
+		if i % 7 == 0:
 			geo_image.pop(i)
 		i += 1
-
+	geo_image.append(geo_image[0])
 	# construct coords to be placed into URL
 	# TODO: implement route optimization techniques through rotation, scaling, and comparing to road coords from OSM using Hausdorff
 	url_end = ''
@@ -39,6 +40,9 @@ def main():
 	print('\nOpening SAM\'s sketch in Google Maps...')
 	# showing route that will look like an apple in Google maps...
 	webbrowser.open('https://www.google.com/maps/dir/' + url_end)
+	obtainMap("Salt Lake City")
+	obtainMap("Portland")
+	obtainSquarePortion(40.5928, 40.7, -112, -111.9)
 
 
 if __name__ == "__main__":

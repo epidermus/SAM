@@ -1,6 +1,31 @@
 from scipy.spatial.distance import directed_hausdorff
+from OSMPythonTools.api import Api
+from OSMPythonTools.overpass import Overpass
+from ShapesStructure import image_processing as ip
+from OSMPythonTools.overpass import overpassQueryBuilder
+import webbrowser
 import numpy as np
 
+
+def obtainMap(city):
+	overpass = Overpass()
+	result = overpass.query(('''area[name="{}"];
+	way(area)[highway=motorway];
+	out body geom;
+
+	''').format(city), timeout=500)
+	return result
+
+def obtainSquarePortion(corner1, corner3, corner2, corner4):
+	overpass = Overpass()
+	query = overpassQueryBuilder(bbox=[corner1, corner2, corner3, corner4], elementType='node', selector='"highway"="motorway',
+								 out="body geom")
+	result = overpass.query(query)
+	bound = str(corner1) + ', ' + str(corner2) + ', ' + str(corner3) + ', ' + str(corner4)
+	result = overpass.query(('''[highway=motorway]({});
+	out body geom;
+	''').format(bound), timeout=500)
+	return result
 
 def optimize_route(image, city_coords):
 	"""
