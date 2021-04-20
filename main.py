@@ -1,8 +1,6 @@
 from OSM import OSM
 from ShapesStructure import image_processing as ip
 from definitions import *
-from route_optimizer import obtainMap
-from route_optimizer import obtainSquarePortion
 import webbrowser
 
 
@@ -42,9 +40,9 @@ def main():
 	print('\nOpening SAM\'s sketch in Google Maps...')
 	# showing route that will look like an apple in Google maps...
 	webbrowser.open('https://www.google.com/maps/dir/' + url_end)
-	obtainMap("Salt Lake City")
-	obtainMap("Portland")
-	obtainSquarePortion(40.5928, 40.7, -112, -111.9)
+	OSM.obtain_map("Salt Lake City")
+	OSM.obtain_map("Portland")
+	OSM.obtain_square_portion(40.5928, 40.7, -112, -111.9)
 
 
 if __name__ == "__main__":

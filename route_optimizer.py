@@ -7,22 +7,6 @@ import webbrowser
 import numpy as np
 
 
-def obtainMap(city):
-	overpass = Overpass()
-	result = overpass.query(('''area[name="{}"];
-	way(area)[highway=motorway];
-	out body geom;
-
-	''').format(city), timeout=500)
-	return result
-
-def obtainSquarePortion(corner1, corner3, corner2, corner4):
-	overpass = Overpass()
-	query = overpassQueryBuilder(bbox=[corner1, corner2, corner3, corner4], elementType='way', selector='"highway"="motorway"',
-								 out="body geom")
-	result = overpass.query(query)
-	return result
-
 def optimize_route(image, city_coords):
 	"""
 	utilizes scaling and rotation functions from image_processing.py to position an image from the 2DShapesStructure
