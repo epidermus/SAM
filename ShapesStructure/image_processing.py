@@ -12,18 +12,14 @@ def load_shape(shape_file_name):
 	:param shape_file_name: a string of the exact name of the JSON file located within shapes_JSON
 	:return: a list of tuples containing the x and y-coordinates of the shape
 	"""
-	with open(str(ROOT_DIR) + '\\ShapesStructure\\Shapes_JSON\\{}'.format(shape_file_name), 'r') as file:
+	with open(ROOT_DIR + '\\ShapesStructure\\Shapes_JSON\\{}'.format(shape_file_name), 'r') as file:
 		data = json.load(file)
 		dict_points = data['points']
 		points = []
-		pointcount = 0
 		count = 0
 		for dict in dict_points:
-			pointcount += 1
-			if (pointcount == 4):
-				points.append((dict['x'], dict['y']))
-				pointcount = 0
-				count += 1
+			points.append((dict['x'], dict['y']))
+			count += 1
 		print('Number of points in loaded image: ' + str(count))
 		return points
 
@@ -33,7 +29,7 @@ def load_random_shape():
 	loads a random image from the ShapesStructure data set
 	:return: a list of tuples containing the x and y-coordinates of the shapes
 	"""
-	path = str(ROOT_DIR) + '\\ShapesStructure\\Shapes_JSON\\'
+	path = ROOT_DIR + '\\ShapesStructure\\Shapes_JSON\\'
 	random_filename = random.choice([
 		x for x in os.listdir(path)
 		if os.path.isfile(os.path.join(path, x))
@@ -88,7 +84,7 @@ def translate_image(points, lat_direction, long_direction):
 	:param points: list of points representing an image
 	:param lat_direction: how many units the image will be translated in the north/south direction
 	:param long_direction: how many units the image will be translated in the east/west direction
-	:return: the list of newly translated points
+	:return: a new list of the translated points
 	"""
 	translated_points = []
 	for point in points:
@@ -116,7 +112,7 @@ def points_to_lat_long(points, lat_s, lat_f, long_s, long_f):
 	:param long_f: the maximum longitude value in the plane
 	:param lat_s: the minimum latitude value in the plane
 	:param lat_f: the maximum latitude value in the plane
-	:return: a list containing the new geographic coordinates of the points representing an image
+	:return: a new list containing the geographic coordinates of the points representing an image
 	"""
 	old_range = 1
 	new_range_long = long_f - long_s
@@ -127,6 +123,23 @@ def points_to_lat_long(points, lat_s, lat_f, long_s, long_f):
 		long = ((point[0] * new_range_long) / old_range) + long_s
 		geo_points.append((lat, long))
 	return geo_points
+
+
+def trim_points(points):
+	"""
+	trims the number of points in an image to be <= 25 (Google Maps only accepts 25 coordinates in the URL)
+	:param points: list of points representing an image
+	:return: the original list having it total number of points trimmed to <= 25
+	"""
+	i = 1
+	while len(points) > 24:
+		# remove every third point until total points in image is <= 25
+		if i >= len(points):
+			i = 0
+		if i % 2 == 0:
+			points.pop(i)
+		i += 1
+	points.append(points[0])
 
 
 def draw_image(points, title=''):
@@ -164,8 +177,8 @@ def draw_image(points, title=''):
 #
 #
 # image = load_random_shape()
-#
-## testing rotation and scaling functions
+
+# testing rotation and scaling functions
 # draw_image(image, 'Random image before rotation')
 # image = rotate_image(image, 90)
 # draw_image(image, 'Random image rotated 90 degrees counterclockwise \n using image_processing.rotate_image function')
