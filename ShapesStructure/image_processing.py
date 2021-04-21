@@ -62,18 +62,19 @@ def rotate_image(points, angle):
 
 def scale_image(points, scale_factor):
 	"""
-	scales an image (list of points) by a specified scalar amount
+	scales an image (list of points) by a specified scalar amount, where center of resizing is the center of the image
 	:param points: list of points representing an image
 	:param scale_factor: the amount of scaling to apply to the image
 	:return: the scaled image as a new list of points
 	"""
 	# no scaling done if scaling factor is 1
+	centroid = calculate_centroid(points)
 	if scale_factor == 1:
 		return points
 	scaled_points = []
 	for point in points:
-		scaled_x = scale_factor * point[0]
-		scaled_y = scale_factor * point[1]
+		scaled_x = centroid[0] + scale_factor * (point[0] - centroid[0])
+		scaled_y = centroid[1] + scale_factor * (point[1] - centroid[1])
 		scaled_points.append((scaled_x, scaled_y))
 	return scaled_points
 
@@ -176,11 +177,11 @@ def draw_image(points, title=''):
 # print('Centroid of frog image: ' + str(calculate_centroid(frog)) + '\n')
 #
 #
-# image = load_random_shape()
+#image = load_random_shape()
 
 # testing rotation and scaling functions
-# draw_image(image, 'Random image before rotation')
-# image = rotate_image(image, 90)
-# draw_image(image, 'Random image rotated 90 degrees counterclockwise \n using image_processing.rotate_image function')
-# image = scale_image(image, 2)
-# draw_image(image, 'Random image rotated and scaled up by a factor of 2')
+#draw_image(image, 'Random image before rotation')
+#image = rotate_image(image, 90)
+#draw_image(image, 'Random image rotated 90 degrees counterclockwise \n using image_processing.rotate_image function')
+#image = scale_image(image, 2)
+#draw_image(image, 'Random image rotated and scaled up by a factor of 2')
