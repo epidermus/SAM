@@ -18,14 +18,14 @@ def optimize_route(image, city_coords):
 	# trimming roads that are over a Hausdorff distance threshold
 	for road in city_coords:
 		# check that num of columns in road is same as image
-		if len(road[0]) is 2 and max(directed_hausdorff(road, image)[0], directed_hausdorff(image, road)[0]) < 215.8:
+		if len(road[0]) is 2 and max(directed_hausdorff(road, image)[0], directed_hausdorff(image, road)[0]) < 215.79:
 			closest_roads.append(road)
 
 	best_image = image
 	best_hausdorff = float('inf')
-	temp_image = image
 	for road in closest_roads:
-		lat = 0.01
+		temp_image = best_image
+		lat = 0.0001
 		# trying 25 different vertical adjustments on map
 		for i in range(25):
 			temp_image = ip.translate_image(temp_image, lat, 0)
@@ -33,11 +33,10 @@ def optimize_route(image, city_coords):
 			if current_hausdorff < best_hausdorff:
 				best_hausdorff = current_hausdorff
 				best_image = temp_image
-			lat += 0.01
 
-	temp_image = best_image
 	for road in closest_roads:
-		long = 0.01
+		temp_image = best_image
+		long = 0.0001
 		# trying 25 different horizontal adjustments on map
 		for i in range(25):
 			temp_image = ip.translate_image(temp_image, 0, long)
@@ -45,7 +44,6 @@ def optimize_route(image, city_coords):
 			if current_hausdorff < best_hausdorff:
 				best_hausdorff = current_hausdorff
 				best_image = temp_image
-			long += 0.01
 
 	return best_image
 
