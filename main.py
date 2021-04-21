@@ -3,6 +3,7 @@ from OSM import OSM
 from ShapesStructure import image_processing as ip
 from definitions import *
 import route_optimizer as ro
+import time
 
 
 
@@ -38,10 +39,17 @@ def main():
 	Portland = OSM.obtain_map("Portland")
 	SLC_square = OSM.obtain_square_portion(40.5928, 40.7, -112, -111.9)
 
+	print('\nSAM is creating the route for you! This might take a minute or two...')
+
+	# TODO: implement route optimization techniques (in route_optimizer.py) through rotation, scaling, and comparing to road coords from OSM using Hausdorff
+	start_time = time.time()
+
 	geo_image = ro.optimize_route(geo_image, SLC_square)
 
+	end_time = time.time()
+	print('Time taken to create route: ' + str(round(end_time - start_time, 2)) + ' seconds')
+
 	# construct coords to be placed into URL
-	# TODO: implement route optimization techniques through rotation, scaling, and comparing to road coords from OSM using Hausdorff
 	url_end = ''
 	for point in geo_image:
 		url_end += str(point[0]) + ',' + str(point[1]) + '/'

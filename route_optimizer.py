@@ -9,10 +9,46 @@ def optimize_route(image, city_coords):
 	dataset onto the roads of a city such that the roads closely resemble the original image. Hausdorff distance is used
 	as fitness metric of any single fitting.
 	:param image: the image to fit to a route
-	:param city_coords: the geographic coordinates of the streets of the city we are fitting an image to
-	:return:
+	:param city_coords: the geographic coordinates of the streets of the city we are fitting an image to (from OSM)
+	:return: the image coordinates optimized to a road in the provided city bounds
 	"""
-	return ip.translate_image(image, 0.05, 0.05)
+	# 1) filter out coords that are greater than a certain Hausdorff dist
+	# 2) rotate, scale, and translate until a threshold is met for Hausdorff
+	closest_roads = []
+	# trimming roads that are over a Hausdorff distance threshold
+	for road in city_coords:
+		# check that num of columns in road is same as image
+		if len(road[0]) is 2 and max(directed_hausdorff(road, image)[0], directed_hausdorff(image, road)[0]) < 215.8:
+			closest_roads.append(road)
+
+	best_image = image
+	best_hausdorff = float('inf')
+	temp_image = image
+	for road in closest_roads:
+		lat = 0.01
+		# trying 25 different vertical adjustments on map
+		for i in range(25):
+			temp_image = ip.translate_image(temp_image, lat, 0)
+			current_hausdorff = max(directed_hausdorff(temp_image, road)[0], directed_hausdorff(road, temp_image)[0])
+			if current_hausdorff < best_hausdorff:
+				best_hausdorff = current_hausdorff
+				best_image = temp_image
+			lat += 0.01
+
+	temp_image = best_image
+	for road in closest_roads:
+		long = 0.01
+		# trying 25 different horizontal adjustments on map
+		for i in range(25):
+			temp_image = ip.translate_image(temp_image, 0, long)
+			current_hausdorff = max(directed_hausdorff(temp_image, road)[0], directed_hausdorff(road, temp_image)[0])
+			if current_hausdorff < best_hausdorff:
+				best_hausdorff = current_hausdorff
+				best_image = temp_image
+			long += 0.01
+
+	return best_image
+
 
 
 # A = np.array([(1.0, 0.0),
