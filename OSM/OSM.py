@@ -18,9 +18,7 @@ def obtain_square_portion(corner1, corner3, corner2, corner4):
 	result = overpass.query(query)
 	road_coords = []
 	for element in result.elements():
-		linestring = element.geometry()
-		for x in linestring["coordinates"]:
-			road_coords.append(x)
+		road_coords.append(element.geometry()['coordinates'])
 	return road_coords
 
 
