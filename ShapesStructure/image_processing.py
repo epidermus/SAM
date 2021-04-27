@@ -38,6 +38,21 @@ def load_random_shape():
 	return load_shape(random_filename)
 
 
+def load_shape_from_mood(mood):
+	"""
+	Loads a random image from a directory that corresponds to the given mood
+	:param mood: the mood of the image to randomly select
+	:return: a list of tuples containing the x and y-coordinates of the shapes
+	"""
+	path = ROOT_DIR + '\\ShapesStructure\\Moods\\' + mood + "\\"
+	random_filename = random.choice([
+		x for x in os.listdir(path)
+		if os.path.isfile(os.path.join(path, x))
+	])
+	print('Loaded image: ' + random_filename)
+	return load_shape(random_filename)
+
+
 def rotate_image(points, angle):
 	"""
 	rotates an image (list of points) counterclockwise a specified number of degrees (assuming (x,y) coordinate plane)

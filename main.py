@@ -8,19 +8,19 @@ import time
 
 
 def main():
-	images_dir = ROOT_DIR + '\\ShapesStructure\\Shapes_JSON'
-	image_files = [f for f in os.listdir(images_dir) if os.path.isfile(os.path.join(images_dir, f))]
+	moods_dir = ROOT_DIR + '\\ShapesStructure\\Moods'
+	moods = [f for f in os.listdir(moods_dir) if os.path.isdir(os.path.join(moods_dir, f))]
 
-	for image in image_files:
-		print(image.split('.')[0])
+	for mood_dir in moods:
+		print(mood_dir)
 
-	image_name = ''
-	while image_name + '.json' not in image_files:
-		image_name = input('\nEnter an image name from above for SAM to sketch on a map of SLC: ')
-		if image_name + '.json' not in image_files:
-			print('Sorry, there is no image with the name \'' + image_name + '\' in the dataset. Please enter a valid name.')
+	mood = ''
+	while mood not in MOODS:
+		mood = input('\nEnter a mood from above for SAM to create an image on a map of SLC: ').lower()
+		if mood not in MOODS:
+			print('Sorry, \'' + mood + '\' is not a supported mood. Please enter a valid mood.')
 		else:
-			image = ip.load_shape(image_name + '.json')
+			image = ip.load_shape_from_mood(mood)
 			# ranges for middle chunk of Salt Lake roughly... lat: 40.5928 - 40.68 / long: -112 - -111.9
 			geo_image = ip.points_to_lat_long(image, 40.5928, 40.68, -112, -111.9)
 
