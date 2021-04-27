@@ -23,28 +23,35 @@ def optimize_route(image, city_coords):
 
 	best_image = image
 	best_hausdorff = float('inf')
-	for road in closest_roads:
-		temp_image = best_image
-		lat = 0.0001
-		# trying 25 different vertical adjustments on map
-		for i in range(25):
-			temp_image = ip.translate_image(temp_image, lat, 0)
-			current_hausdorff = max(directed_hausdorff(temp_image, road)[0], directed_hausdorff(road, temp_image)[0])
-			if current_hausdorff < best_hausdorff:
-				best_hausdorff = current_hausdorff
-				best_image = temp_image
 
 	for road in closest_roads:
-		temp_image = best_image
-		long = 0.0001
-		# trying 25 different horizontal adjustments on map
-		for i in range(25):
-			temp_image = ip.translate_image(temp_image, 0, long)
-			current_hausdorff = max(directed_hausdorff(temp_image, road)[0], directed_hausdorff(road, temp_image)[0])
-			if current_hausdorff < best_hausdorff:
-				best_hausdorff = current_hausdorff
-				best_image = temp_image
+		temp_image = image
+		rotation = 15
+		for i in range (5):
+			temp_image = ip.rotate_image(temp_image, rotation * i)
+			for road in closest_roads:
+				temp_image = best_image
+				lat = 0.0001
+				# trying 25 different vertical adjustments on map
+				for i in range(25):
+					temp_image = ip.translate_image(temp_image, lat, 0)
+					current_hausdorff = max(directed_hausdorff(temp_image, road)[0],
+											directed_hausdorff(road, temp_image)[0])
+					if current_hausdorff < best_hausdorff:
+						best_hausdorff = current_hausdorff
+						best_image = temp_image
 
+			for road in closest_roads:
+				temp_image = best_image
+				long = 0.0001
+				# trying 25 different horizontal adjustments on map
+				for i in range(25):
+					temp_image = ip.translate_image(temp_image, 0, long)
+					current_hausdorff = max(directed_hausdorff(temp_image, road)[0],
+											directed_hausdorff(road, temp_image)[0])
+					if current_hausdorff < best_hausdorff:
+						best_hausdorff = current_hausdorff
+						best_image = temp_image
 	return best_image
 
 
