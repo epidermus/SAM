@@ -1,6 +1,6 @@
 from scipy.spatial.distance import directed_hausdorff
 from ShapesStructure import image_processing as ip
-import numpy as np
+import copy
 
 
 def optimize_route(image, city_coords):
@@ -21,37 +21,41 @@ def optimize_route(image, city_coords):
 		if len(road[0]) is 2 and max(directed_hausdorff(road, image)[0], directed_hausdorff(image, road)[0]) < 215.79:
 			closest_roads.append(road)
 
-	best_image = image
+	best_image = copy.deepcopy(image)
 	best_hausdorff = float('inf')
 
-	for road in closest_roads:
-		temp_image = image
-		rotation = 15
-		for i in range (5):
-			temp_image = ip.rotate_image(temp_image, rotation * i)
-			for road in closest_roads:
-				temp_image = best_image
-				lat = 0.0001
-				# trying 25 different vertical adjustments on map
-				for i in range(25):
+
+	rotation_degrees = 10
+	for i in range(19):
+		rotated_image = ip.rotate_image(image, rotation_degrees * i)
+		for road in closest_roads:
+			lat = 0.0001
+			# trying 25 different scaled versions of the rotated image each at 25 different vertical adjustments on map
+			for j in range(25):
+				scale_factor = 0.15
+				temp_image = ip.scale_image(rotated_image, scale_factor * j)
+				for k in range(25):
 					temp_image = ip.translate_image(temp_image, lat, 0)
 					current_hausdorff = max(directed_hausdorff(temp_image, road)[0],
 											directed_hausdorff(road, temp_image)[0])
 					if current_hausdorff < best_hausdorff:
 						best_hausdorff = current_hausdorff
-						best_image = temp_image
+						best_image = copy.deepcopy(temp_image)
 
-			for road in closest_roads:
-				temp_image = best_image
-				long = 0.0001
-				# trying 25 different horizontal adjustments on map
-				for i in range(25):
+
+		for road in closest_roads:
+			long = 0.0001
+			# trying 25 different scaled versions of the rotated image each at 25 different horizontal adjustments on map
+			for j in range(25):
+				scale_factor = 0.15
+				temp_image = ip.scale_image(rotated_image, scale_factor * j)
+				for k in range(25):
 					temp_image = ip.translate_image(temp_image, 0, long)
 					current_hausdorff = max(directed_hausdorff(temp_image, road)[0],
 											directed_hausdorff(road, temp_image)[0])
 					if current_hausdorff < best_hausdorff:
 						best_hausdorff = current_hausdorff
-						best_image = temp_image
+						best_image = copy.deepcopy(temp_image)
 	return best_image
 
 
