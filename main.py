@@ -14,6 +14,13 @@ def main():
 	for mood_dir in moods:
 		print(mood_dir)
 
+	is_using_route_opt = input('\nWould you like SAM to use route optimization? (Still Buggy) (Y/N): ').lower()
+
+	if is_using_route_opt == 'y' or is_using_route_opt == 'yes':
+		is_using_route_opt = True
+	else:
+		is_using_route_opt = False
+
 	mood = ''
 	while mood not in MOODS:
 		mood = input('\nEnter a mood from above for SAM to create an image on a map of Portland: ').lower()
@@ -33,7 +40,8 @@ def main():
 	start_time = time.time()
 
 	# TODO: implement route optimization techniques (in route_optimizer.py) through rotation, scaling, and comparing to road coords from OSM using Hausdorff
-	geo_image = ro.optimize_route(geo_image, portland_square)
+	if is_using_route_opt:
+		geo_image = ro.optimize_route(geo_image, portland_square)
 
 	end_time = time.time()
 	print('Time taken to create route: ' + str(round(end_time - start_time, 2)) + ' seconds')
