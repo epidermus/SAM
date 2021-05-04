@@ -24,11 +24,6 @@ def main():
 			# ranges for middle chunk of Portland roughly...
 			geo_image = ip.points_to_lat_long(image, 45.55353, 45.56680, -122.65153, -122.635)
 
-	# TODO: still need to optimize which points are cut from each image (in ip.trim_points)
-	if len(geo_image) > 25:
-		print('Trimming image down to 25 points...')
-		ip.trim_points(geo_image)
-
 	SLC = OSM.obtain_map('Salt Lake City')
 	Portland = OSM.obtain_map('Portland')
 	portland_square = OSM.obtain_square_portion(45.4, 45.9, -122.7, -122.2)
@@ -44,6 +39,12 @@ def main():
 	print('Time taken to create route: ' + str(round(end_time - start_time, 2)) + ' seconds')
 
 	# construct coords to be placed into URL
+
+	# TODO: still need to optimize which points are cut from each image (in ip.trim_points)
+	if len(geo_image) > 25:
+		print('Trimming image down to 25 points...')
+		ip.trim_points(geo_image)
+
 	url_end = ''
 	for point in geo_image:
 		url_end += str(point[0]) + ',' + str(point[1]) + '/'
