@@ -14,7 +14,7 @@ def main():
 	for mood_dir in moods:
 		print(mood_dir)
 
-	is_using_route_opt = input('\nWould you like SAM to use route optimization? (Still Buggy) (Y/N): ').lower()
+	is_using_route_opt = input('\nWould you like SAM to use route optimization? (Y/N): ').lower()
 
 	if is_using_route_opt == 'y' or is_using_route_opt == 'yes':
 		is_using_route_opt = True
