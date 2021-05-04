@@ -14,7 +14,8 @@ def main():
 	for mood_dir in moods:
 		print(mood_dir)
 
-	is_using_route_opt = input('\nWould you like SAM to use route optimization? (Y/N): ').lower()
+	#is_using_route_opt = input('\nWould you like SAM to use route optimization? (Y/N): ').lower()
+	is_using_route_opt = False
 
 	if is_using_route_opt == 'y' or is_using_route_opt == 'yes':
 		is_using_route_opt = True
@@ -29,7 +30,7 @@ def main():
 		else:
 			image = ip.load_shape_from_mood(mood)
 			# ranges for middle chunk of Portland roughly...
-			geo_image = ip.points_to_lat_long(image, 45.54353, 45.55680, -122.65153, -122.635)
+			geo_image = ip.points_to_lat_long(image, 45.53353, 45.54680, -122.65153, -122.635)
 
 	SLC = OSM.obtain_map('Salt Lake City')
 	Portland = OSM.obtain_map('Portland')
