@@ -27,10 +27,9 @@ def optimize_route(image, city_coords):
 	for road in closest_roads:
 		temp_image = image
 		rotation = 15
-		for i in range (5):
+		for i in range (10):
 			temp_image = ip.rotate_image(temp_image, rotation * i)
 			for road in closest_roads:
-				temp_image = best_image
 				lat = 0.0001
 				# trying 25 different vertical adjustments on map
 				for i in range(25):
@@ -42,7 +41,6 @@ def optimize_route(image, city_coords):
 						best_image = temp_image
 
 			for road in closest_roads:
-				temp_image = best_image
 				long = 0.0001
 				# trying 25 different horizontal adjustments on map
 				for i in range(25):
