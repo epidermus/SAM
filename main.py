@@ -29,7 +29,7 @@ def main():
 		else:
 			image = ip.load_shape_from_mood(mood)
 			# ranges for middle chunk of Portland roughly...
-			geo_image = ip.points_to_lat_long(image, 45.55353, 45.56680, -122.65153, -122.635)
+			geo_image = ip.points_to_lat_long(image, 45.54353, 45.55680, -122.65153, -122.635)
 
 	SLC = OSM.obtain_map('Salt Lake City')
 	Portland = OSM.obtain_map('Portland')
