@@ -16,13 +16,13 @@ def main():
 
 	mood = ''
 	while mood not in MOODS:
-		mood = input('\nEnter a mood from above for SAM to create an image on a map of SLC: ').lower()
+		mood = input('\nEnter a mood from above for SAM to create an image on a map of Portland: ').lower()
 		if mood not in MOODS:
 			print('Sorry, \'' + mood + '\' is not a supported mood. Please enter a valid mood.')
 		else:
 			image = ip.load_shape_from_mood(mood)
-			# ranges for middle chunk of Salt Lake roughly... lat: 40.5928 - 40.68 / long: -112 - -111.9
-			geo_image = ip.points_to_lat_long(image, 40.5928, 40.68, -112, -111.9)
+			# ranges for middle chunk of Portland roughly...
+			geo_image = ip.points_to_lat_long(image, 45.55353, 45.56680, -122.65153, -122.635)
 
 	# TODO: still need to optimize which points are cut from each image (in ip.trim_points)
 	if len(geo_image) > 25:
@@ -31,14 +31,14 @@ def main():
 
 	SLC = OSM.obtain_map('Salt Lake City')
 	Portland = OSM.obtain_map('Portland')
-	SLC_square = OSM.obtain_square_portion(40.5928, 40.7, -112, -111.9)
+	portland_square = OSM.obtain_square_portion(45.4, 45.9, -122.7, -122.2)
 
 	print('\nSAM is creating the route for you! This might take a minute or two...')
 
 	start_time = time.time()
 
 	# TODO: implement route optimization techniques (in route_optimizer.py) through rotation, scaling, and comparing to road coords from OSM using Hausdorff
-	geo_image = ro.optimize_route(geo_image, SLC_square)
+	geo_image = ro.optimize_route(geo_image, portland_square)
 
 	end_time = time.time()
 	print('Time taken to create route: ' + str(round(end_time - start_time, 2)) + ' seconds')
